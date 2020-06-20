@@ -1,0 +1,23 @@
+import shutil
+import os
+
+
+while True:
+    if os.path.exists('F:'):
+        break
+
+
+if not os.path.exists(r'./file'):
+    os.mkdir(r'./file')
+path = os.getcwd() + '\\file'
+u_path = 'F:'
+
+
+for i in os.listdir(u_path):
+    try:
+        if '.' in i:
+            shutil.copy(u_path+'\\'+i, r'./file')
+            continue
+        shutil.copytree(u_path+'\\'+i, r'./file/'+i, True)
+    except:
+        continue

